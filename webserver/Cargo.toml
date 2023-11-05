@@ -11,14 +11,19 @@ description = "Shopify app demo written in Rust."
 homepage = "https://loopercorp.github.io/shopify-app-demo"
 documentation = "https://loopercorp.github.io/shopify-app-demo"
 
+[lib]
+name = "webserver"
 
 [dependencies]
 actix-web = "4.4.0"
 config = { version = "0.13.3", features = ["toml"] }
+futures-util = "0.3.29"
 graphql_client = "0.13.0"
+jwt-compact = "0.8.0"
 serde = { version = "1.0.190", features = ["derive"] }
 serde-aux = "4.2.0"
 shopify_function = "0.4.0"
+shopifyrs = "0.0.2"
 tokio = { version = "1.33.0", features = ["full"] }
 tracing = "0.1.40"
 tracing-actix-web = "0.7.8"

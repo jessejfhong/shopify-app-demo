@@ -1,4 +1,4 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Browser exposing (Document)
 import Html exposing (div, footer, h2, header, main_, text)
@@ -6,9 +6,16 @@ import Html.Attributes exposing (class)
 import Http
 
 
+port requestSessionToken : () -> Cmd msg
+
+
+port sessionToken : (String -> msg) -> Sub msg
+
+
 type Msg
     = Sayhello
     | GotHealthCheck (Result Http.Error String)
+    | GotSessionToken String
 
 
 type alias Model =
@@ -60,10 +67,20 @@ update msg model =
         GotHealthCheck result ->
             case result of
                 Ok str ->
-                    ( { model | message = str }, Cmd.none )
+                    ( { model | message = str }, requestSessionToken () )
 
                 Err _ ->
                     ( { model | message = "Oops, something gone wroing!" }, Cmd.none )
+
+        GotSessionToken token ->
+            ( { model | message = token }, Cmd.none )
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ sessionToken GotSessionToken
+        ]
 
 
 main : Program String Model Msg
@@ -72,5 +89,5 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         }

@@ -10,6 +10,7 @@
 				"LICENSE-MIT"
 			],
 			"folder_exclude_patterns": [
+				"dist",
 				"target",
 				"node_modules",
 				"elm-stuff"

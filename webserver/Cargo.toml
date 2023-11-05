@@ -1,0 +1,32 @@
+[package]
+name = "shopify-app-demo"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["looper <looper@loopercorp.com>"]
+repository = "https://github.com/loopercorp/shopify-app-demo"
+keywords = ["Shopify", "App"]
+readme = "readme.md"
+description = "Shopify app demo written in Rust."
+homepage = "https://loopercorp.github.io/shopify-app-demo"
+documentation = "https://loopercorp.github.io/shopify-app-demo"
+
+
+[dependencies]
+actix-web = "4.4.0"
+config = { version = "0.13.3", features = ["toml"] }
+graphql_client = "0.13.0"
+serde = { version = "1.0.190", features = ["derive"] }
+serde-aux = "4.2.0"
+shopify_function = "0.4.0"
+tokio = { version = "1.33.0", features = ["full"] }
+tracing = "0.1.40"
+tracing-actix-web = "0.7.8"
+
+[dependencies.uuid]
+version = "1.4.0"
+features = [
+    "v4",
+    "fast-rng",
+    "macro-diagnostics",
+]

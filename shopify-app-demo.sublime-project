@@ -1,0 +1,19 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"file_exclude_patterns": [
+				"Cargo.lock",
+				"package-lock.json",
+				"*.sublime-project",
+				"LICENSE-MIT"
+			],
+			"folder_exclude_patterns": [
+				"target",
+				"node_modules",
+				"elm-stuff"
+			]
+		}
+	]
+}

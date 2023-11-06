@@ -17,8 +17,11 @@ async fn not_found() -> impl Responder {
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(Env::default().default_filter_or("info"));
 
+    let secret = std::env::var("LOOPER_APP_SECRET")
+        .expect("Failed to get secret from LOOPER_APP_SECRET");
+
     let app_state = Data::new(AppState {
-        client_secret: String::from("very strong secert"),
+        client_secret: secret,
     });
 
     HttpServer::new(move || {

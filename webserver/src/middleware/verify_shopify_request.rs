@@ -1,8 +1,9 @@
 use crate::AppState;
-use actix_web::web;
+use actix_web::body::EitherBody;
+use actix_web::web::Data;
 use actix_web::{
     dev::{forward_ready, Service, ServiceRequest, ServiceResponse, Transform},
-    Error,
+    Error, HttpResponse,
 };
 use futures_util::future::LocalBoxFuture;
 use shopifyrs;
@@ -16,7 +17,7 @@ where
     S::Future: 'static,
     B: 'static,
 {
-    type Response = ServiceResponse<B>;
+    type Response = ServiceResponse<EitherBody<B>>;
     type Error = Error;
     type InitError = ();
     type Transform = VerifyShopifyRequestMiddleware<S>;
@@ -37,36 +38,37 @@ where
     S::Future: 'static,
     B: 'static,
 {
-    type Response = ServiceResponse<B>;
+    type Response = ServiceResponse<EitherBody<B>>;
     type Error = Error;
     type Future = LocalBoxFuture<'static, Result<Self::Response, Self::Error>>;
 
     forward_ready!(service);
 
     fn call(&self, req: ServiceRequest) -> Self::Future {
-        println!("You requested: {}", req.path());
+        let is_authentic = req
+            .app_data::<Data<AppState>>()
+            .map(|app_state| {
+                let url = format!(
+                    "{}://{}{}",
+                    req.connection_info().scheme(),
+                    req.connection_info().host(),
+                    req.uri().to_string()
+                );
+                shopifyrs::verify_shopify_request(&url, &app_state.client_secret)
+            })
+            .unwrap_or(false);
 
-        // get hmac from req parameter
-        let hmac = "hmacstring";
+        if !is_authentic {
+            let (request, _pl) = req.into_parts();
+            let response = HttpResponse::Forbidden()
+                .content_type("text/plain;charset=utf-8")
+                .body("Forbidden")
+                .map_into_right_body();
 
-        if let Some(app_state) = req.app_data::<web::Data<AppState>>() {
-            println!("app state: {}", app_state.client_secret);
-
-            if shopifyrs::verify_shopify_request(hmac, &app_state.client_secret) {
-                // continue
-            } else {
-                // circuit
-            }
+            Box::pin(async { Ok(ServiceResponse::new(request, response)) })
+        } else {
+            let res = self.service.call(req);
+            Box::pin(async move { res.await.map(ServiceResponse::map_into_left_body) })
         }
-
-        let fut = self.service.call(req);
-
-        Box::pin(async move {
-            let res = fut.await?;
-
-            println!("Hi from response!");
-
-            Ok(res)
-        })
     }
 }

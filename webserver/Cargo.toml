@@ -17,6 +17,7 @@ name = "webserver"
 [dependencies]
 actix-web = "4.4.0"
 config = { version = "0.13.3", features = ["toml"] }
+env_logger = "0.10.0"
 futures-util = "0.3.29"
 graphql_client = "0.13.0"
 jwt-compact = "0.8.0"

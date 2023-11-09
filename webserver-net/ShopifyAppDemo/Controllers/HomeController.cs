@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ShopifyAppDemo.Controllers;
 
-[ApiController, Authorize]
+[ApiController/*, Authorize*/]
 [Route("api/[controller]")]
 public class HomeController : ControllerBase
 {
@@ -19,10 +19,10 @@ public class HomeController : ControllerBase
     }
 
     [HttpGet("healthcheck")]
-    public IActionResult HealthCheck()
+    public string HealthCheck()
     {
         _logger.LogInformation("request received");
-        return Ok("ShopifyAppDemo is running!");
+        return "ShopifyAppDemo is running!";
     }
 
     [HttpGet("installation/{id:int}")]

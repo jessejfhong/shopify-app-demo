@@ -65,7 +65,7 @@ public class ShopifyController : ControllerBase
         {
             // When user open the installed app, redirect to home page
             // the client need to somehow check if user is login, then show home page or asking for authorization
-            return LocalRedirect($"/?host={host}");
+            return LocalRedirect($"/?host={host}&shop={shop}");
         }
         else
         {
@@ -154,11 +154,11 @@ public class ShopifyController : ControllerBase
         // or redirect using url provided here: https://shopify.dev/docs/apps/auth/oauth/getting-started#step-6-redirect-to-your-apps-ui
         // the app library also use this redirect url: https://{base64_decode(host)}/apps/{api_key}/
         // this way, we don't need app bridge to redirct back to shopify admin.
-        var decodedHost = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(host));
-        var redirectUrl = $"https://{decodedHost}/apps/{_configStore.ClientId}/";
-        return Redirect(redirectUrl);
+        //var decodedHost = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(host));
+        //var redirectUrl = $"https://{decodedHost}/apps/{_configStore.ClientId}/?host={host}&shop={shop}";
+        //return Redirect(redirectUrl);
 
         // set app bridge config "forceRedirect" to true will redirect the app back to embeded app
-        //return LocalRedirect($"/?shop={shop}&host={host}");
+        return LocalRedirect($"/?host={host}&shop={shop}");
     }
 }

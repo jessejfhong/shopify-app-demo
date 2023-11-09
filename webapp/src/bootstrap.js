@@ -5,6 +5,6 @@ const app = Elm.Main.init({
     flags: window.location.origin
 });
 
-// app.ports.requestSessionToken.subscribe(async () => {
-//     app.ports.sessionToken.send(await shopify.idToken());
-// });
+app.ports.requestSessionToken.subscribe(async () => {
+    app.ports.sessionToken.send(await shopify.idToken());
+});

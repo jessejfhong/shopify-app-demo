@@ -17,5 +17,13 @@
 				"webserver-net"
 			]
 		}
-	]
+	],
+	"build_systems":
+    [
+        {
+            "name": "Vite Build Webapp",
+    		"shell_cmd": "npx vite build",
+    		"working_dir": "$project_path/webapp"
+        }
+    ]
 }

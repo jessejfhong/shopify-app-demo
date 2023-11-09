@@ -38,11 +38,11 @@ type alias Model =
     }
 
 
-healthCheck token =
+healthCheck origin token =
     Http.request
         { method = "GET"
         , headers = [ Http.header "Authorization" ("Bearer " ++ token) ]
-        , url = "http://localhost:8080/api/home/healthcheck"
+        , url = origin ++ "/api/home/healthcheck"
         , body = Http.emptyBody
         , expect = Http.expectString GotHealthCheck
         , timeout = Nothing
@@ -95,7 +95,7 @@ update msg model =
 
         GotSessionToken token ->
             -- after getting a session toke, make http reqest
-            ( model, healthCheck token )
+            ( model, healthCheck model.origin token )
 
         ButtonClicked data ->
             -- first step of making http request, get the session token from app bridge

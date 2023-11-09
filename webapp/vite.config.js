@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
         port: 5173,
         proxy: {
-            '/health_check': {
+            '/api': {
                 target: 'http://localhost:8080'
             }
         }

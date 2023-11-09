@@ -22,12 +22,10 @@
     <ProjectReference Include="..\DbUp4AppDemo\DbUp4AppDemo.csproj" />
   </ItemGroup>
 
-  <Target Name="PublishRunVite" AfterTargets="ComputeFilesToPublish">
-    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+  <!--<Target Name="PublishRunVite" AfterTargets="ComputeFilesToPublish">
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
 
-    <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**" />
       <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
@@ -50,6 +48,6 @@
           DestinationFolder="$(MSBuildProjectDirectory)\wwwroot\%(RecursiveDir)"
           SkipUnchangedFiles="true"
           ContinueOnError="false" />
-  </Target>
+  </Target>-->
 
 </Project>

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ShopifyAppDemo.Controllers;
 
-[ApiController/*, Authorize*/]
+[ApiController, Authorize]
 [Route("api/[controller]")]
 public class HomeController : ControllerBase
 {

@@ -13,7 +13,8 @@
 				"dist",
 				"target",
 				"node_modules",
-				"elm-stuff"
+				"elm-stuff",
+				"webserver-net"
 			]
 		}
 	]
